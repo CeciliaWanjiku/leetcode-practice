@@ -311,3 +311,76 @@ const pathWithSeq = (root, sequence) => {
   return dfs(root, 0)
 }
 
+//48. Rotate Image
+var rotate = function(matrix) {
+  let n = matrix.length
+  console.log(matrix)
+  for(let i = 0; i<matrix.length; i++){
+      for(let j = i; j<matrix.length; j++){
+          console.log(i, j)
+          let temp = matrix[j][i]
+          matrix[j][i] = matrix[i][j]
+          matrix[i][j] = temp
+          
+      }
+  }
+  
+  console.log(matrix)
+  for(let i = 0; i<n; i++){
+     matrix[i] =  matrix[i].reverse()
+  }
+  return matrix
+  
+};
+
+//62. Unique Paths
+var uniquePaths = function(m, n) {
+  let grid = new Array(m).fill(0).map(() => new Array(n).fill(0))
+  let paths = []
+  
+  const findPaths = (cell, path, grid) => {
+      const [row, col] = cell
+      if(row == m-1 && col == n-1){
+          paths.push(path)
+      }
+      if(row < m && col < n){
+          findPaths([row+1, col], path+"down ", grid)
+          findPaths([row, col+1], path+"right ", grid)
+      }
+      
+  }
+  
+  findPaths([0, 0], "", grid)
+  console.log(paths)
+  return paths.length   
+};
+//bottom up
+var uniquePaths = function(m, n) {
+  const dp = new Array(m).fill(0).map(() => new Array(n))
+  
+  for(let i = 0; i< m; i++){
+      dp[i][0] = 1
+  }
+  for(let j = 0; j<n; j++){
+      dp[0][j] = 1 
+  }
+     
+  for(let row = 1; row<m; row++){
+      for(let col = 1; col<n; col++){
+          dp[row][col] = dp[row-1][col] + dp[row][col-1]
+      }
+  }
+  return dp[m-1][n-1]
+};
+
+//70. Climbing Stairs
+var climbStairs = function(n) {
+  const dp = []
+  dp[0] = 1
+  dp[1] = 1
+  
+  for(let i = 2; i<=n; i++){
+      dp[i] = dp[i-1] + dp[i-2]
+  }
+  return dp[n]
+};
