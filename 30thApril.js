@@ -115,7 +115,7 @@ const LISub = (nums) => {
     dp[i] = 1
     for (let j = 0; j < i; j++){
       if (nums[i] > nums[j] && dp[i] <= dp[j]) {
-        dp[i] = dp[j] = 1
+        dp[i] = dp[j] +1
         maxLength = Math.max(maxlength, dp[i])
       }
     }

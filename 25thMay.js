@@ -320,4 +320,183 @@ var rob = function(nums) {
     return dp[nums.length-1] 
 };
 
+// 23. Merge k Sorted Lists
+var mergeKLists = function(lists) {
+    let allNodes = []
+    let head = new ListNode(-1),
+        curr = head
+    
+    for(let list of lists){
+        while(list){
+            allNodes.push(list.val)
+            list = list.next
+        }
+    }
+    allNodes.sort((a,b) => a-b)
+    for(let val of allNodes){
+        curr.next = new ListNode(val)
+        curr = curr.next
+    }
+    return head.next
+};
 
+//using a priority queue
+
+var mergeKLists = function(lists) {
+    let head = new ListNode(-1),
+        curr = head
+    
+    let minHeap = new Heap([], null, ((a,b) => a[0] - b[0]))
+    
+    for(let list of lists){
+        if(list){
+            minHeap.push([list.val, list])
+        }
+        while(miHeap.length){
+            const[val, node] = q.pop()
+            curr.next = new ListNode(val)
+            curr = curr.next
+            node = node.next
+            if(node){
+                minHeap.push(node)
+            }
+        }
+    }   
+    return head.next   
+};
+
+var serialize = function(root) {
+    if(!root){
+        return ""
+    }
+    let result = ""
+    
+    let q = []
+    q.push(root)
+    while(q.length){
+        let curr = q.shift()
+        if(curr == null){
+            result= result + "none" + ","
+        }else {
+            result = result + curr.val + ","
+            q.push(curr.left)
+            q.push(curr.right)
+        }
+        
+    }
+    console.log(result)
+    return result
+    
+};
+
+
+//297. Serialize and Deserialize Binary Tree
+/**
+ * Decodes your encoded data to tree.
+ *
+ * @param {string} data
+ * @return {TreeNode}
+ */
+var deserialize = function(data) {
+    if(!data.length){
+        return null
+    }
+    let nodes = data.split(",")
+    
+    let root = new TreeNode(nodes[0])
+    let q = []
+    let i = 1
+    q.push(root)
+    while(q.length){
+        let curr = q.shift()
+        if(nodes[i] !== "none"){
+            curr.left = new TreeNode(nodes[i])
+            q.push(curr.left)
+            i++
+        }else{
+            curr.left = null
+            i++
+        }
+        if(nodes[i] !== "none"){
+            curr.right = new TreeNode(nodes[i])
+            q.push(curr.right)
+            i++
+        }else{
+            curr.right = null
+            i++
+        }   
+    }
+    return root
+    
+};
+
+//implement a Trie data structure
+class TrieNode {
+    constructor(){
+        this.children = {}
+        this.endOfWord = false
+    }
+
+}
+
+class Trie {
+    constructor(){
+        this.root = new TrieNode
+    }
+
+    insert(word) {
+        let curr = this.root
+        for(let i = 0; i<word.length; i++){
+            let char = word[i]
+            let node = curr[char]
+            if(node == null){
+                node = new TrieNode()
+                curr[char] = node
+            }
+            curr = node
+        }
+        curr.endOfWord = true
+
+    }
+
+    search(word) {
+        let curr = this.root
+        for(let i = 0; i<word.length; i++){
+            let char = word[i]
+            let node = curr[char]
+            if(node == null){
+                return false
+            }
+            curr = node
+        }
+        return curr.endOfWord
+    }
+
+    delete(word) {
+        
+        const deleted = (curr, word, index) => {
+            if(index == word.length){
+                if(!curr.endOfWord){
+                    return false
+                }
+                curr.endOfWord = false
+                return Object.keys(curr) == 0
+            }
+
+            let char = word[index]
+            let node = curr[char]
+            if(node == null){
+                return false
+            }
+            let shouldDelete = deleted(node, word, index+1)
+
+            if(shouldDelete){
+                delete node
+                return Object.keys(curr) == 0
+            }
+            return false
+        }
+
+        deleted(this.root, word, 0)
+    }
+}

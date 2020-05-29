@@ -232,3 +232,27 @@ var numDecodings = function(s) {
     }
     return dp[s.length] 
 };
+
+//142. Linked List Cycle II
+var detectCycle = function(head) {
+    if(!head){
+        return null
+    }
+    let slow = head, fast = head
+    
+    while(fast && fast.next){
+        slow = slow.next
+        fast = fast.next.next
+        if(slow == fast){
+            return slow
+        }
+    }
+    if(slow !== null){
+        let pointer1 = head, pointer2 = slow
+        while(pointer1 !== pointer2){
+            pointer1 = pointer1.next
+            pointer2 = pointer2.next
+        }
+        return pointer1
+    } 
+};
