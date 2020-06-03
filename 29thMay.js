@@ -197,3 +197,134 @@ MovingAverage.prototype.next = function(val) {
     
 };
 
+// 266. Palindrome Permutation
+var canPermutePalindrome = function(s) {
+    let map = {}
+    
+    for(let i = 0; i<s.length; i++){
+        let char = s[i]
+        if(!map[char]){
+            map[char] = 1
+        }else {
+            map[char]+=1
+        }
+    }
+    let vals = Object.values(map)
+    
+    let oddCount = 0
+    for(let num of vals){
+        if(num % 2 !== 0)
+            oddCount+=1
+        }
+    if(s.length % 2 == 0 && oddCount > 0){
+        return false
+    }
+    
+    if(s.length % 2 !==0 && oddCount > 1){
+        return false
+    }
+    
+    return true
+};
+
+// 543. Diameter of Binary Tree
+var diameterOfBinaryTree = function(root) {
+    let maxD = 0
+    
+    const height = (root) => {
+        if(!root){
+            return 0
+        }
+        let left = height(root.left)
+        let right = height(root.right)
+        
+        let currHeight = left + right
+        maxD = Math.max(maxD, currHeight)
+        return 1+ Math.max(left, right)
+    }
+    
+    height(root)
+    return maxD
+    
+};
+
+//412. Fizz Buzz
+var fizzBuzz = function(n) {
+    let res = new Array(n)
+    
+    for(let i = 1; i<=n; i++){
+       if(i % 3 == 0 && i % 5 == 0){
+           res[i] = "FizzBuzz"
+       }else if(i % 3 == 0 && i % 5 !== 0){
+            res[i] = "Fizz"
+        }else if(i % 5 == 0 && i % 3 !== 0){
+            res[i] = "Buzz"
+        }else {
+            res[i] = ""+ i
+        }
+    }
+    console.log(res)
+    return res.slice(1)
+};
+
+var fizzBuzz = function(n) {
+    let res = new Array(n)
+    
+    for(let i = 1; i<=n; i++){
+        res[i-1] = ""+i
+    }
+    for(let i = 2; i<n; i+=3){
+        res[i] = "Fizz"
+    }
+    for(let i = 4; i<n; i+=5){ 
+        res[i] = "Buzz"
+    }
+    for(let i = 14; i<n; i+=15){
+        res[i] = "FizzBuzz"
+    }
+    return res
+};
+
+//108. Convert Sorted Array to Binary Search Tree
+var sortedArrayToBST = function(nums) {
+    if(!nums.length){
+        return null
+    }    
+    const dfs = (left, right) => {
+        if(left > right){
+            return null
+        }     
+        let mid = Math.floor((left+right)/2)
+        
+        let root =  new TreeNode(nums[mid])
+        root.left = dfs(left, mid-1)
+        root.right = dfs(mid+1, right)
+        
+        return root
+    }   
+    return dfs(0, nums.length-1)  
+};
+
+//419. Battleships in a Board
+var countBattleships = function(board) {
+    let n = board.length, m = board[0].length
+    let count = 0
+    
+    for(let i =0; i<n; i++){
+        for(let j=0; j<m; j++){
+            if(board[i][j] == '.'){
+                continue;
+            }
+            else if(i> 0 && board[i-1][j] == 'X'){
+                continue;
+            }
+            else if(j>0 && board[i][j-1] == 'X'){
+                continue
+            }else{
+                count++
+            }
+        }
+    }
+    
+    return count 
+};

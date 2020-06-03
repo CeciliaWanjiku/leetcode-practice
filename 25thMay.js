@@ -352,16 +352,16 @@ var mergeKLists = function(lists) {
         if(list){
             minHeap.push([list.val, list])
         }
-        while(miHeap.length){
-            const[val, node] = q.pop()
-            curr.next = new ListNode(val)
-            curr = curr.next
-            node = node.next
-            if(node){
-                minHeap.push(node)
-            }
+    } 
+    while(miHeap.length){
+        const[val, node] = q.pop()
+        curr.next = new ListNode(val)
+        curr = curr.next
+        node = node.next
+        if(node){
+            minHeap.push(node)
         }
-    }   
+    }  
     return head.next   
 };
 

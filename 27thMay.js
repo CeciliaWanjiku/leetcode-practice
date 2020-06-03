@@ -355,6 +355,7 @@ var isPalindrome = function(s) {
 };
 
 //415. Add Strings
+//sum two numbers strings
 var addStrings = function(num1, num2) {    
     let sum = "" 
     let i = num1.length-1, j = num2.length-1
