@@ -46,3 +46,62 @@ var searchMatrix = function(matrix, target) {
     
     return false  
 };
+
+const count = (str, word) => {
+    if(!str.length || !word.length){
+        return 0
+    }
+
+    let wordCount = 0
+    let endIndex = word.length-1
+    startIndex = 0
+
+    for(let i = 0; i<str.length; i++){
+        if(isChar(str[i]) && i==){
+            map[word]++
+            endIndex
+        }
+    }
+}
+
+const kmp = (str, pattern) => {
+    const indexMatch = new Array(str.length)
+    let i = 0
+
+    for(let j = i+1; j<str.length; j++){
+        if(str[j] == str[i]){
+            indexMatch[j] = i+1
+            i= i+1
+        }else if(str[j] !== str[i]){
+            i = indexMatch[j-1]
+        }else {
+            indexMatch[j] = 0
+        }
+    }
+
+    return indexMatch
+}
+
+const search = (text, pattern) => {
+    const lps = kmp(str, pattern)
+
+    let i = 0, j=0
+
+    while(i < text.length && j<text.length){
+        if(text[i] == pattern[j]){
+            j++
+            j++
+        }else {
+            if(j !== 0){
+                j = lps[j-1]
+            }else {
+                i++
+            }
+        }
+        if(j == pattern.length){
+            return true
+        }
+
+    }
+    return false
+}
